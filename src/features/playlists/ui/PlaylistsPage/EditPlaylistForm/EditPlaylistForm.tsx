@@ -1,6 +1,6 @@
-import { useUpdatePlaylistMutation } from '@/features/playlists/api/playlistsApi.ts'
+import { useUpdatePlaylistMutation } from '@/features/playlists/api'
 import type { SubmitHandler, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
-import type { UpdatePlaylistArgs } from '@/features/playlists/api/playlists.types.ts'
+import type { UpdatePlaylistArgs } from '@/features/playlists/api'
 
 type Props = {
   playlistId: string | null

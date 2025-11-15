@@ -1,5 +1,5 @@
-import type { PlaylistData } from '@/features/playlists/api/playlists.types.ts'
-import { useDeletePlaylistMutation } from '@/features/playlists/api/playlistsApi.ts'
+import type { PlaylistData } from '@/features/playlists/api'
+import { useDeletePlaylistMutation } from '@/features/playlists/api'
 
 type Props = {
   playlist: PlaylistData
