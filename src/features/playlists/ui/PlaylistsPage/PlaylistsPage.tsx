@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import type { PlaylistData, UpdatePlaylistArgs } from '@/features/playlists/api'
-import { useFetchPlaylistsQuery } from '@/features/playlists/api'
-import { CreatePlaylistForm } from '@/features/playlists/ui/PlaylistsPage/CreatePlaylistForm'
-import s from './PlaylistsPage.module.css'
-import { PlaylistItem } from '@/features/playlists/ui/PlaylistsPage/PlaylistItem'
-import { EditPlaylistForm } from '@/features/playlists/ui/PlaylistsPage/EditPlaylistForm'
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import type { PlaylistData, UpdatePlaylistArgs } from "@/features/playlists/api"
+import { useFetchPlaylistsQuery } from "@/features/playlists/api"
+import { CreatePlaylistForm } from "@/features/playlists/ui/PlaylistsPage/CreatePlaylistForm"
+import s from "./PlaylistsPage.module.css"
+import { PlaylistItem } from "@/features/playlists/ui/PlaylistsPage/PlaylistItem"
+import { EditPlaylistForm } from "@/features/playlists/ui/PlaylistsPage/EditPlaylistForm"
 
 export const PlaylistsPage = () => {
   const [playlistId, setPlaylistId] = useState<string | null>(null)

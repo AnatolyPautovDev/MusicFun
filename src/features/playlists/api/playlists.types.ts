@@ -1,5 +1,5 @@
-import type { CurrentUserReaction } from '@/common/enums'
-import type { Images, Tag, User } from '@/common/types'
+import type { CurrentUserReaction } from "@/common/enums"
+import type { Images, Tag, User } from "@/common/types"
 
 export type PlaylistsResponse = {
   data: PlaylistData[]
@@ -8,7 +8,7 @@ export type PlaylistsResponse = {
 
 export type PlaylistData = {
   id: string
-  type: 'playlists'
+  type: "playlists"
   attributes: PlaylistAttributes
 }
 
@@ -38,8 +38,8 @@ export type FetchPlaylistsArgs = {
   pageNumber?: number
   pageSize?: number
   search?: string
-  sortBy?: 'addedAt' | 'likesCount'
-  sortDirection?: 'asc' | 'desc'
+  sortBy?: "addedAt" | "likesCount"
+  sortDirection?: "asc" | "desc"
   tagsIds?: string[]
   userId?: string
   trackId?: string

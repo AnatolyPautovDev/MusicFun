@@ -1,4 +1,4 @@
-import s from './PageNotFound.module.css'
+import s from "./PageNotFound.module.css"
 
 export const PageNotFound = () => {
   return (
