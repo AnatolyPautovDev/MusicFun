@@ -13,11 +13,18 @@ export const PlaylistsPage = () => {
   const [search, setSearch] = useState("")
   const debounceSearch = useDebounceValue(search)
 
-  const { data, isLoading } = useFetchPlaylistsQuery({
-    search: debounceSearch,
-    pageNumber: currentPage,
-    pageSize,
-  })
+  const { data, isLoading } = useFetchPlaylistsQuery(
+    {
+      search: debounceSearch,
+      pageNumber: currentPage,
+      pageSize,
+    },
+    {
+      // refetchOnFocus: true,
+      // pollingInterval: 60000,
+      // skipPollingIfUnfocused: true
+    },
+  )
 
   const setPageSizeHandler = (size: number) => {
     setCurrentPage(1)
