@@ -35,10 +35,12 @@ export const PlaylistsPage = () => {
     setCurrentPage(1)
   }
 
+  if (isLoading) return <h1>Skeleton loader...</h1>
+
   return (
     <div className={s.container}>
       <h1>Playlists page</h1>
-      <CreatePlaylistForm />
+      <CreatePlaylistForm setCurrentPage={setCurrentPage} />
       <input type="search" placeholder={"Search playlist by title"} onChange={searchPlaylistHandler} />
       <PlaylistsList isPlaylistsLoading={isLoading} playlists={data?.data || []} />
       <Pagination
