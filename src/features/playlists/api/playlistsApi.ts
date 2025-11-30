@@ -1,7 +1,9 @@
 import type {
   CreatePlaylistArgs,
   FetchPlaylistsArgs,
+  PlaylistCreatedEvent,
   PlaylistsResponse,
+  PlaylistUpdatedEvent,
   UpdatePlaylistArgs,
 } from "@/features/playlists/api/"
 import { baseApi } from "@/app/api/baseApi.ts"
@@ -9,12 +11,44 @@ import type { Images } from "@/common/types"
 import { playlistCreateResponseSchema, playlistsResponseSchema } from "@/features/playlists/model/playlists.schemas.ts"
 import { imagesSchema } from "@/common/schemas"
 import { withZodCatch } from "@/common/utils"
+import { SOCKET_EVENTS } from "@/common/constants"
+import { subscribeToEvent } from "@/common/socket"
 
 export const playlistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     fetchPlaylists: build.query<PlaylistsResponse, FetchPlaylistsArgs>({
-      query: (params) => ({ url: "/playlists", params }),
+      query(params) {
+        return { url: "/playlists", params }
+      },
       ...withZodCatch(playlistsResponseSchema),
+      keepUnusedDataFor: 0,
+      onCacheEntryAdded: async (_arg, { cacheDataLoaded, updateCachedData, cacheEntryRemoved }) => {
+        await cacheDataLoaded
+
+        const unsubscribes = [
+          subscribeToEvent<PlaylistCreatedEvent>(SOCKET_EVENTS.PLAYLIST_CREATED, (msg) => {
+            const newPlaylist = msg.payload.data
+            updateCachedData((state) => {
+              state.data.unshift(newPlaylist)
+              state.data.pop()
+              state.meta.totalCount += 1
+              state.meta.pagesCount = Math.ceil(state.meta.totalCount / state.meta.pageSize)
+            })
+          }),
+          subscribeToEvent<PlaylistUpdatedEvent>(SOCKET_EVENTS.PLAYLIST_UPDATED, (msg) => {
+            const newPlaylist = msg.payload.data
+            updateCachedData((state) => {
+              const index = state.data.findIndex((pl) => pl.id === newPlaylist.id)
+              if (index !== -1) {
+                state.data[index] = { ...state.data[index], ...newPlaylist }
+              }
+            })
+          }),
+        ]
+
+        await cacheEntryRemoved
+        unsubscribes.forEach((unsubscribe) => unsubscribe())
+      },
       providesTags: ["Playlists"],
     }),
     createPlaylist: build.mutation({
