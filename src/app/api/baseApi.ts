@@ -5,5 +5,6 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   tagTypes: ["Playlists", "Auth"],
   baseQuery: baseQueryWithReauth,
+  skipSchemaValidation: process.env.NODE_ENV === "production",
   endpoints: () => ({}),
 })
